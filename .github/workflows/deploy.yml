@@ -10,11 +10,14 @@ jobs:
       - name: Get code
         uses: actions/checkout@v3
       - name: Cache dependencies
+        id: cache-deps
         uses: ./.github/actions/cache-deps
         with:
           caching: 'false'
       - name: Lint code
         run: npm run lint
+      - name: Get Output Cache Info
+        run: echo "Caching was set to ${{ steps.cache-deps.outputs.cache-info }}"
   test:
     runs-on: ubuntu-latest
     steps:

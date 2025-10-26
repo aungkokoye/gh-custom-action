@@ -4,7 +4,11 @@ inputs:
   caching:
     description: 'Enable or disable caching'
     required: false
-    default: 'true' 
+    default: 'true'
+outputs:
+  cache-info:
+    description: 'Indicates if caching was enabled or disabled' 
+    value: ${{ steps.cache-info-output.outputs.cache }}
 runs:
   using: "composite"
   steps:
@@ -19,3 +23,10 @@ runs:
       if: steps.cache.outputs.cache-hit != 'true' || inputs.caching == 'false'
       run: npm ci
       shell: bash
+    - name: Caching Info Output
+      id: cache-info-output
+      run: |
+        echo 'Cache Info Outputing Step'
+        echo "cache=${{ inputs.caching }}" >> $GITHUB_OUTPUT
+      shell: bash
+
